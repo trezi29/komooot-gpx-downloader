@@ -43,19 +43,6 @@ export default function Home() {
       distance: tourData.distance,
       mapImageUrl: tourData.map_image.src,
     });
-
-    // const coordinates = await fetch(
-    //   `https://api.komoot.de/v007/tours/${tourId}/coordinates`
-    // );
-
-    // if (!coordinates.ok) {
-    //   alert('Failed to fetch tour coordinates');
-    //   return;
-    // }
-
-    // const coordsData = await coordinates.json();
-
-    // downloadGPX(coordsData.items, tourData.name);
   }
 
   return (
