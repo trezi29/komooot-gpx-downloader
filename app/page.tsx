@@ -16,9 +16,11 @@ import {
   MoveDownRight,
   MoveHorizontal,
   HardDriveDownload,
+  LoaderCircle,
 } from 'lucide-react';
 
 import Github from '@/public/github-mark.svg';
+import { cn } from '@/lib/utils';
 
 interface TourData {
   id: string;
@@ -33,6 +35,7 @@ export default function Home() {
   const [tourData, setTourData] = useState<TourData | null>(null);
   const [kmtUrl, setKmtUrl] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   function extractIdFromKmtUrl(kmtUrl: string): string | null {
     const match = kmtUrl.match(/tour\/(\d+)/);
@@ -40,6 +43,7 @@ export default function Home() {
   }
 
   async function searchTour() {
+    setLoading(true);
     const tourId = extractIdFromKmtUrl(kmtUrl);
     if (!tourId) {
       setError('Please enter a valid komoot tour link.');
@@ -62,73 +66,95 @@ export default function Home() {
       elevation_up: tourData.elevation_up,
       elevation_down: tourData.elevation_down,
     });
+
+    setLoading(false);
   }
 
   return (
     <div className="font-ibm p-4 h-screen flex flex-col justify-between items-center">
       <h1 className="font-sora font-bold text-2xl">komoot-gpx-downloader</h1>
-      {!tourData && (
-        <div className="w-full flex flex-col gap-4">
-          <div>
-            <Label htmlFor="kmt-url" className="mb-1.5">
-              Enter komoot’s tour link:
-            </Label>
-            <Input
-              type="text"
-              value={kmtUrl}
-              onChange={(e) => setKmtUrl(e.target.value)}
-              onFocus={() => setError(null)}
-            />
-          </div>
-          <Button
-            disabled={!kmtUrl}
-            onClick={searchTour}
-            className="group self-end"
-          >
-            Search Tour
-            <ArrowRight className="group-hover:translate-x-1 transition-all duration-150" />
-          </Button>
-        </div>
-      )}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {tourData && (
-        <div>
-          <h2>{tourData.name}</h2>
-          <Image
-            width={600}
-            height={400}
-            src={tourData.mapImageUrl}
-            alt="Tour Map Preview"
-            style={{ maxWidth: '100%', height: 'auto' }}
-          />
-          <div className="flex justify-between w-full">
-            <div className="flex items-center gap-2">
-              <MoveHorizontal />
-              <p>{(tourData.distance / 1000).toFixed(2)} km</p>
+      <div className="p-4 border rounded-md w-full">
+        {!tourData && (
+          <div className="w-full flex flex-col gap-6">
+            <div>
+              <Label htmlFor="kmt-url" className="mb-1.5">
+                Enter komoot’s tour link:
+              </Label>
+              <Input
+                type="text"
+                value={kmtUrl}
+                onChange={(e) => setKmtUrl(e.target.value)}
+                onFocus={() => setError(null)}
+              />
             </div>
-            <div className="flex items-center gap-2">
-              <MoveUpRightIcon />
-              <p>{Math.round(tourData.elevation_up)} m</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <MoveDownRight />
-              <p>{Math.round(tourData.elevation_down)} m</p>
-            </div>
-          </div>
-          <div className="flex justify-between w-full">
-            <Button onClick={() => setTourData(null)} variant="outline">
-              <ArrowLeft />
-              Back
-            </Button>
             <Button
-              onClick={() => downloadKomootGpx(tourData.id, tourData.name)}
+              disabled={!kmtUrl}
+              onClick={searchTour}
+              className="group self-end relative"
             >
-              Download GPX
-              <HardDriveDownload />
+              <span className={cn(loading ? 'opacity-0' : 'opacity-100')}>
+                Search Tour
+              </span>
+              <ArrowRight
+                className={cn(
+                  'group-hover:translate-x-1 transition-all duration-150',
+                  loading ? 'opacity-0' : 'opacity-100'
+                )}
+              />
+              {loading && (
+                <LoaderCircle
+                  className="animate-spin absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                  size={16}
+                />
+              )}
             </Button>
           </div>
-        </div>
-      )}
+        )}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {tourData && (
+          <div>
+            <h2 className="font-bold text-lg mb-2">{tourData.name}</h2>
+            <div className="flex flex-col gap-2">
+              <div className="rounded-md h-full min-h-[250px] overflow-hidden flex justify-center items-center">
+                <Image
+                  width={1560}
+                  height={600}
+                  src={tourData.mapImageUrl}
+                  alt="Tour Map Preview"
+                  className="h-full max-w-fit"
+                  // style={{ maxWidth: '100%', height: 'auto' }}
+                />
+              </div>
+              <div className="flex justify-between w-full">
+                <div className="flex items-center gap-2">
+                  <MoveHorizontal />
+                  <p>{(tourData.distance / 1000).toFixed(2)} km</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <MoveUpRightIcon />
+                  <p>{Math.round(tourData.elevation_up)} m</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <MoveDownRight />
+                  <p>{Math.round(tourData.elevation_down)} m</p>
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-between w-full mt-6">
+              <Button onClick={() => setTourData(null)} variant="outline">
+                <ArrowLeft />
+                Back
+              </Button>
+              <Button
+                onClick={() => downloadKomootGpx(tourData.id, tourData.name)}
+              >
+                Download GPX
+                <HardDriveDownload />
+              </Button>
+            </div>
+          </div>
+        )}
+      </div>
       <div className="mt-4 flex flex-col gap-2 items-center">
         <p>
           made with ❤️ by{' '}
