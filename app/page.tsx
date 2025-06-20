@@ -191,12 +191,6 @@ export default function Home() {
         </div>
       </div>
       <div className="mt-4 flex flex-col gap-2 items-center">
-        <p>
-          made with ❤️ by{' '}
-          <Link href={'https://www.matteotressi.com'} className="underline">
-            matteotressi.com
-          </Link>
-        </p>
         <Button variant={'outline'} asChild>
           <Link
             href="https://github.com/trezi29/komooot-gpx-downloader"
@@ -206,6 +200,16 @@ export default function Home() {
             GitHub
           </Link>
         </Button>
+        <p>
+          made with ❤️ by{' '}
+          <Link
+            href={'https://www.matteotressi.com'}
+            className="underline"
+            target="_blank"
+          >
+            matteotressi.com
+          </Link>
+        </p>
       </div>
     </div>
   );
