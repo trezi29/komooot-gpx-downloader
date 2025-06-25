@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { downloadKomootGpx } from './download-gpx';
+import { downloadKomootGpx } from '@/components/download-gpx';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -77,14 +77,11 @@ export default function Home() {
   return (
     <div className="font-ibm p-4 h-screen flex flex-col justify-between items-center">
       <h1 className="font-sora font-bold text-2xl">komoot-gpx-downloader</h1>
-      {/* <div className="p-4 border rounded-md w-full max-w-[780px]"> */}
       <div className="w-screen flex items-center justify-start overflow-hidden">
         <div
           className={`flex items-center w-[200vw] transition-transform duration-${animationDuration}`}
           style={{
-            // opacity: imgLoaded ? '0' : '100%',
             transform: imgLoaded ? 'translateX(-100vw)' : 'translateX(0)',
-            // display: imgLoaded ? 'none' : 'flex',
           }}
         >
           <div className="w-screen flex justify-center items-center px-4">
