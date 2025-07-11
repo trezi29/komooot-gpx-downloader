@@ -81,7 +81,7 @@ export default function Home() {
         <div
           className={`flex items-center w-[200vw] transition-transform duration-${animationDuration}`}
           style={{
-            transform: imgLoaded ? 'translateX(-100vw)' : 'translateX(0)',
+            transform: tourData ? 'translateX(-100vw)' : 'translateX(0)',
           }}
         >
           <div className="w-screen flex justify-center items-center px-4">
@@ -130,7 +130,7 @@ export default function Home() {
             {tourData && (
               <div
                 className="w-full flex flex-col gap-6 transition-opacity duration-150 p-4 border rounded-md max-w-[780px]"
-                style={{ opacity: imgLoaded ? 1 : 0 }}
+                // style={{ opacity: imgLoaded ? 1 : 0 }}
               >
                 <h2 className="font-bold text-lg mb-2">{tourData.name}</h2>
                 <div className="flex flex-col gap-2">
