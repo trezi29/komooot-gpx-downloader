@@ -128,13 +128,16 @@ export default function Home() {
           </div>
           <div className="w-screen flex justify-center items-center px-4">
             {tourData && (
-              <div
-                className="w-full flex flex-col gap-6 transition-opacity duration-150 p-4 border rounded-md max-w-[780px]"
-                // style={{ opacity: imgLoaded ? 1 : 0 }}
-              >
+              <div className="w-full flex flex-col gap-6 transition-opacity duration-150 p-4 border rounded-md max-w-[780px]">
                 <h2 className="font-bold text-lg mb-2">{tourData.name}</h2>
                 <div className="flex flex-col gap-2">
-                  <div className="rounded-md h-[300px] overflow-hidden flex justify-center items-center">
+                  <div className="rounded-md h-[300px] overflow-hidden flex justify-center items-center relative">
+                    {!imgLoaded && (
+                      <LoaderCircle
+                        className="animate-spin absolute top-1/2 left-1/2 -translate-1/2 -z-10"
+                        size={32}
+                      />
+                    )}
                     <Image
                       width={1560}
                       height={600}
@@ -142,7 +145,6 @@ export default function Home() {
                       alt="Tour Map Preview"
                       className="h-full max-w-fit"
                       onLoad={() => setImgLoaded(true)}
-                      // style={{ maxWidth: '100%', height: 'auto' }}
                     />
                   </div>
                   <div className="flex justify-between w-full">
