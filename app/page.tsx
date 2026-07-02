@@ -37,6 +37,7 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
+  const [showResult, setShowResult] = useState(false);
 
   function extractIdFromKmtUrl(kmtUrl: string): string | null {
     const match = kmtUrl.match(/tour\/(\d+)/);
@@ -69,19 +70,18 @@ export default function Home() {
       elevation_down: tourData.elevation_down,
     });
 
+    setShowResult(true);
     setLoading(false);
   }
-
-  const animationDuration = 300; // Duration in milliseconds
 
   return (
     <div className="font-ibm p-4 h-screen flex flex-col justify-between items-center">
       <h1 className="font-sora font-bold text-2xl">komoot-gpx-downloader</h1>
       <div className="w-screen flex items-center justify-start overflow-hidden">
         <div
-          className={`flex items-center w-[200vw] transition-transform duration-${animationDuration}`}
+          className="flex items-center w-[200vw] transition-transform duration-300"
           style={{
-            transform: tourData ? 'translateX(-100vw)' : 'translateX(0)',
+            transform: showResult ? 'translateX(-100vw)' : 'translateX(0)',
           }}
         >
           <div className="w-screen flex justify-center items-center px-4">
@@ -166,9 +166,10 @@ export default function Home() {
                   <Button
                     onClick={() => {
                       setImgLoaded(false);
+                      setShowResult(false);
                       setTimeout(() => {
                         setTourData(null);
-                      }, animationDuration);
+                      }, 300);
                     }}
                     variant="outline"
                   >

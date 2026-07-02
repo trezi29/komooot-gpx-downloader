@@ -8,7 +8,7 @@ This is a simple web application to download GPX files from Komoot tours.
 2.  **Copy the tour URL:** Copy the URL of the tour from your browser's address bar. It should look something like this: `https://www.komoot.com/tour/123456789`.
 3.  **Paste the URL:** Paste the URL into the input field on the komoot-gpx-downloader website.
 4.  **Search for the tour:** Click the "Search Tour" button.
-5.  **Download the GPX file:** You will see a preview of the tour with its details. Click the "Download GPX" button to download the GPX file to your computer.
+5.  **Download the GPX file:** You will see a preview of the tour with its details. Click the "Download GPX" button to download the GPX file to your device.
 
 ### Contributing
 
